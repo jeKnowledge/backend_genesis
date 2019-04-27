@@ -1,3 +1,4 @@
 {
-  "website_index": "/"
+  "website_index": "/",
+  "website_forgot_password": "/forgot_password"
 }
