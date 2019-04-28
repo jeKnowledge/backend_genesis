@@ -16,7 +16,7 @@ app.use(express.static('public'))
 // Routing
 app.use('/', controllers.website)
 
-app.on('close', () => {})
+app.on('close', () => { })
 app.listen(port)
 
 console.log(`Listening on port ${port}`)

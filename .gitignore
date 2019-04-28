@@ -1,3 +1,6 @@
+## Custom ##
+data/*
+
 ### Linux ###
 *~
 
@@ -125,4 +128,4 @@ env/
 venv/
 node_modules/
 __pycache__/
-.vscode/
+.vscode/"sendgrid.env"
