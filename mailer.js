@@ -5,43 +5,37 @@ import fs from 'fs'
 import password_generator from 'generate-password'
 
 dotenv.config()
-
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const MAILER_STATS_FILE = "data/mailer_stats.json"
 
 const send_email = (email, subject, text) => {
-	const email_number = parseInt(fs.readFileSync('email_usage.txt', 'utf-8'))
-	
-	if(email_number <= parseInt(process.env.MAIL_LIMIT)){
-		sgMail.send({
-    		to: email,
-    		from: process.env.MAILER_FROM,
-    		subject: subject,
-    		text: text
-  		})
-  		let new_number = email_number + 1;
+  let mailer_stats = { sent: 0 }
 
-  		fs.writeFile('email_usage.txt', new_number, (err)=>{
-  			if(err) throw err
-  		})
-  	} else {
-  		return 'blocked'
-  	}
+  try {
+  let data = fs.readFileSync(MAILER_STATS_FILE, 'utf-8')
+  mailer_stats = JSON.parse(data)
+  } catch { }
+
+  if (mailer_stats.sent + 1 < process.env.MAILER_LIMIT) {
+  sgMail.send({
+    to: email,
+    from: process.env.MAILER_FROM,
+    subject: subject,
+    text: text
+  })
+
+  mailer_stats.sent += 1
+
+  fs.writeFileSync(MAILER_STATS_FILE, JSON.stringify(mailer_stats))
+    return { success: true, message: `Email successfuly sent to ${email}` }
+  } else {
+    return { success: false, message: "Mailer limit reached. Try again later." }
+  }
 }
 
-const send_new_password = (email) =>{
-	const new_password = password_generator.generate({
-		length: 10,
-		numbers:true
-	})
-	if(send_email(email, "New password", `Your new password is ${new_password}`)=='blocked'){
-  	return 'blocked'
-  } 
-} 
-
-const send_test_email = (email) => {
-  if(send_email(email, "Email testing", "Email created for testing")=='blocked'){
-  	return 'blocked'
-  } 
+const send_new_password = (email) => {
+  const new_password = password_generator.generate({ length: 10, numbers: true })
+  return send_email(email, "Password recovery", `Your new password is ${new_password}`)
 }
 
-export { send_test_email, send_new_password }
+export { send_new_password }

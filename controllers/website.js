@@ -1,29 +1,23 @@
 import express from 'express'
 import { render_view } from '../utils'
-import { send_test_email, send_new_password}  from '../mailer'
+import { send_new_password }  from '../mailer'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
 let router = express.Router()
 
-router.use(express.urlencoded())
-
 router.get('/', (_, res) => {
   render_view(res, 'website/index')
 })
 
 router.get('/forgot_password', (_, res)=>{
- 	render_view(res, 'website/forgot_password')
+  render_view(res, 'website/forgot_password', { email_sent: {} })
 })
 
-router.post('/email_sent', (req, res)=>{
-	let adress = req.body["email"]
- 	if(send_new_password(adress) == 'blocked'){
-		render_view(res, 'website/email_not_sent')
- 	} else {
- 		render_view(res, 'website/email_sent')
- 	}
+router.post('/forgot_password', (req, res)=>{
+  let email_sent = send_new_password(req.body.email)
+  render_view(res, 'website/forgot_password', { email_sent })
 })
 
 export default router
