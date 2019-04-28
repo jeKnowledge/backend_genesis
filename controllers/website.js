@@ -1,6 +1,6 @@
 import express from 'express'
 import { render_view } from '../utils'
-import { send_test_email }  from '../mailer'
+import { send_test_email, send_new_password}  from '../mailer'
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -19,7 +19,7 @@ router.get('/forgot_password', (_, res)=>{
 
 router.post('/email_sent', (req, res)=>{
 	let adress = req.body["email"]
- 	if(send_test_email(adress) == 'blocked'){
+ 	if(send_new_password(adress) == 'blocked'){
 		render_view(res, 'website/email_not_sent')
  	} else {
  		render_view(res, 'website/email_sent')

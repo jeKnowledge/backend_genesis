@@ -2,6 +2,7 @@
 import sgMail from '@sendgrid/mail'
 import dotenv from 'dotenv'
 import fs from 'fs'
+import password_generator from 'generate-password'
 
 dotenv.config()
 
@@ -27,10 +28,20 @@ const send_email = (email, subject, text) => {
   	}
 }
 
-const send_test_email = email => {
+const send_new_password = (email) =>{
+	const new_password = password_generator.generate({
+		length: 10,
+		numbers:true
+	})
+	if(send_email(email, "New password", `Your new password is ${new_password}`)=='blocked'){
+  	return 'blocked'
+  } 
+} 
+
+const send_test_email = (email) => {
   if(send_email(email, "Email testing", "Email created for testing")=='blocked'){
   	return 'blocked'
   } 
 }
 
-export { send_test_email }
+export { send_test_email, send_new_password }
