@@ -1,3 +1,6 @@
 {
-  "website_index": "/"
+  "website_index": "/",
+  "login": "/login",
+  "logout": "logout",
+  "register": "/register"
 }
