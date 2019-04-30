@@ -1,3 +1,7 @@
+## Custom ##
+data/*.json
+yarn-error.log
+
 ### Linux ###
 *~
 
@@ -125,4 +129,4 @@ env/
 venv/
 node_modules/
 __pycache__/
-.vscode/
+.vscode/"sendgrid.env"

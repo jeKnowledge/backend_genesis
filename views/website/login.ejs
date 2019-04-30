@@ -1,19 +1,21 @@
-<!-- Simple Form for Testing -->
-<form action="login" method="POST" style="text-align: center">
-	<p>
-		Login
-	</p>
-	<p>
-		Username:<br>
-		<input type="text" name="username" value='' size=25>
-	</p>
-		
-	<p>
-		Password:<br>
-		<input type="text" name="password" value='' size=25>
-	</p>
-		
-	<p> 
-		<input type="submit" value="Submit"> 
-	</p>
+<h1>LOGIN</h1>
+
+<% errors.forEach((error, i) => { %>
+  <li><%= error %></li>
+<% }) %>
+
+<form action="<%= routes['website_login'] %>" method="POST">
+  <div>
+    <label>Username or Email</label>
+    <input type="text" name="username">
+  </div>
+
+  <div>
+    <label>Password</label>
+    <input type="password" name="password">
+  </div>
+
+  <div>
+    <input type="submit" value="Login">
+  </div>
 </form>

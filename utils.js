@@ -1,12 +1,10 @@
 import ejs from 'ejs'
 import path from 'path'
-import lineByLine from 'n-readlines'
 import fs from 'fs'
 import routes from './routes.json'
+import bcrypt from 'bcrypt'
 
-/* global liner, SALT_ROUNDS */
 const SALT_ROUNDS = 10
-const liner = new lineByLine('./users_data.txt')
 
 const render_view = (res, slug, view_props = {}) => {
   const view_file_path = path.join(__dirname, 'views', slug + '.ejs')
@@ -20,13 +18,12 @@ const render_view = (res, slug, view_props = {}) => {
   })
 }
 
-// Sync function
-// TODO: change this function to async
-const checkUserInFile = function (username) {
-  let line
-  while (line = liner.next()) {
-    if (line.toString('ascii').includes(username)) { return line.toString('ascii') }
-  }
+const hash = password => {
+  return bcrypt.hashSync(password, SALT_ROUNDS)
 }
 
-export { render_view, checkUserInFile }
+const compare_with_hash = (string, hash) => {
+  return bcrypt.compareSync(string, hash)
+}
+
+export { render_view, hash, compare_with_hash }

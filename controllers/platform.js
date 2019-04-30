@@ -1,11 +1,12 @@
 import express from 'express'
 import { render_view } from '../utils'
-import routes from '../routes.json'
 
 let router = express.Router()
 
-router.get('/', (_, res) => {
-  render_view(res, 'website/logout')
+// TODO: Make auth middleware
+
+router.get("/", (_ ,res) => {
+  render_view(res, "platform/index")
 })
 
 export default router

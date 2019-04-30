@@ -1,6 +1,9 @@
 {
   "website_index": "/",
-  "login": "/login",
-  "logout": "logout",
-  "register": "/register"
+  "website_login": "/login",
+  "website_register": "/register",
+  "website_logout": "/logout",
+  "website_forgot_password": "/forgot_password",
+
+  "platform_index": "/platform"
 }

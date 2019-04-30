@@ -1,6 +1,4 @@
 import website from './website'
-import login from './login'
-import logout from './logout'
-import register from './register'
+import platform from './platform'
 
-export default { website, login, logout, register }
+export default { website, platform }
