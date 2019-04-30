@@ -2,20 +2,23 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const DB_NAME = process.env.DB_NAME || "database"
+const database = process.env.DB_NAME || "database"
+const username = process.env.DB_USERNAME || "root"
+const password = process.env.DB_PASSWORD || "secret"
+const host = process.env.DB_HOST || "127.0.0.1"
+const port = process.env.DB_PORT || 5432
 
 const common = {
-  userame: process.env.DB_USERNAME || "root",
-  password: process.env.DB_PASSWORD || "secret",
-  host: process.env.DB_HOST || "127.0.0.1",
-  port: process.env.DB_PORT || 5432,
-  dialect: 'postgres',
+  username,
+  password,
+  host,
+  port,
+  dialect: 'postgres'
 }
 
-const config = {
-  development: { ...common, database: `${DB_NAME}_development` },
-  test: { ...common, database: `${DB_NAME}_test` },
-  production: { ...common, database: `${DB_NAME}_production` }
+// Required for sequelize CLI
+module.exports = {
+  development: { ...common, database: `${database}_development` },
+  test: { ...common, database: `${database}_test` },
+  production: { ...common, database: `${database}_production` }
 }
-
-export default config

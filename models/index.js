@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import User from './User'
 
 dotenv.config()
-const settings = config[process.env.ENV || "development"]
+const settings = config[process.env.NODE_ENV || "development"]
 
 const sequelize = new Sequelize(
   settings.database,
