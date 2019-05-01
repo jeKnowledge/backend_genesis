@@ -30,17 +30,11 @@ router.get('/login', (_, res) => {
 })
 
 router.post('/login', (req, res) => {
-<<<<<<< HEAD
-  let user = User.getUsername(req.body.username)
-  if (user && compare_with_hash(req.body.password, user.password)) {
-    req.session.id = user.id
-=======
   let users = User.where({ username: req.body.username })
   if (!users.length) users = User.where({ email: req.body.username })
 
   if (users.length && compare_with_hash(req.body.password, users[0].password)) {
     req.session.id = users[0].id
->>>>>>> 98ecfcba98db0c2236bcb64f1a43862d458c18b7
     res.redirect(routes['platform_index'])
   } else {
     let user = new User({})
