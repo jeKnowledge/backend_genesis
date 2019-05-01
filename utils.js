@@ -27,7 +27,6 @@ const compare_with_hash = (string, hash) => {
 }
 
 const redirectLogin = (req, res, next)=>{
-  console.log("inside redirect login");
   if (!req.session.id) {
     res.redirect(routes['website_login'])
   }else{

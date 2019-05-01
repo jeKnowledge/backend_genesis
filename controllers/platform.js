@@ -14,23 +14,22 @@ router.get('/', redirectLogin, (req ,res) => {
 })
 
 router.post('/logout', (req, res)=>{
-  req.session.destroy(err => {
-  if(err)
-    return res.redirect(routes['website_index'])
-  
-  res.clearCookie('connection.sid')
-  res.redirect(routes['website_index'])
-  })
+  req.session = null
 })
 
-router.get('/show_profile', (req, res)=>{
+router.get('/show_profile',redirectLogin, (req, res)=>{
   let user = FakeUser.findId(req.session.id)
   render_view(res, 'platform/show_profile', { user })
 })
 
-router.get('/delete_profile', (req, res)=>{
+router.get('/delete_profile', redirectLogin, (req, res)=>{
   console.log("id in delete",req.session.id)
   FakeUser.delete(req.session.id)
   return res.redirect('/logout')
 })
+
+router.get('/edit_profile', redirectLogin, (req, res)=>{
+  
+})
+
 export default router

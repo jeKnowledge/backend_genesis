@@ -43,7 +43,6 @@ router.get('/login', (_, res) => {
 
 router.post('/login', (req, res) => {
   let user = FakeUser.findName(req.body.username)
-  console.log("Inside login => ", user);
   if (user && compare_with_hash(req.body.password, user.password)) {
     // TODO: Save id in session
     console.log("User checked as correct")
