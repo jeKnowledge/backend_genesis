@@ -1,6 +1,5 @@
-import dotenv from 'dotenv'
+import User from './User'
 import FakeUser from './FakeUser'
 
-dotenv.config()
 
-export { FakeUser }
+export { User }

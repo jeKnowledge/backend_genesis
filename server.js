@@ -1,7 +1,6 @@
 import express from 'express'
 import cookieSession from 'cookie-session'
 import controllers from './controllers'
-import db from './models'
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -29,8 +28,8 @@ app.use("/", controllers.website)
 app.use("/platform", controllers.platform)
 
 app.on('close', () => { })
-app.listen(port)
 
+app.listen(port)
 console.log(`Listening on port ${port}`)
 
 export default app
