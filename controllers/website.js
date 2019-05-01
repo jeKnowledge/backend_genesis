@@ -11,18 +11,13 @@ router.get('/', (_, res) => {
 })
 
 router.get('/register', (_, res) => {
-  render_view(res, 'website/register', { errors: [] } )
+  render_view(res, 'website/register', { user: new User({}) } )
 })
 
 router.post('/register', (req, res) => {
+  let user = User.create(req.body)
 
-  let user = User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
-  })
-
-  if (!user.errors) {
+  if (user.valid) {
     req.session.id = user.id
     res.redirect(routes['platform_index'])
   } else {
@@ -31,17 +26,21 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/login', (_, res) => {
-  render_view(res, 'website/login', { errors: [] })
+  render_view(res, 'website/login', { user: new User({}) })
 })
 
 router.post('/login', (req, res) => {
-  let user = User.getUsername(req.body.username)
-  console.log(user);
-  if (user && compare_with_hash(req.body.password, user.password)) {
-    req.session.id = user.id
+  let users = User.where({ username: req.body.username })
+  if (!users.length) users = User.where({ email: req.body.username })
+
+  if (users.length && compare_with_hash(req.body.password, users[0].password)) {
+    req.session.id = users[0].id
     res.redirect(routes['platform_index'])
   } else {
-    return render_view(res, 'website/login', { errors: [ "Invalid credentials" ] })
+    let user = new User({})
+    user.valid = false
+    user.errors.password = "Invalid credentials"
+    return render_view(res, 'website/login', { user })
   }
 })
 

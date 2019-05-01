@@ -1,13 +1,20 @@
 <h1>REGISTER</h1>
 
-<% errors.forEach((error, i) => { %>
-  <li><%= error %></li>
-<% }) %>
+<% if (!user.valid) { %>
+  <% for (let id of Object.keys(user.errors)) { %>
+    <li><%= `${id} ${user.errors[id]}` %></li>
+  <% } %>
+<% } %>
 
 <form action="<%= routes['website_register'] %>" method="POST">
   <div>
+    <label>Name</label>
+    <input type="text" name="name" required>
+  </div>
+
+  <div>
     <label>Username</label>
-    <input type="text" name="username" required
+    <input type="text" name="username" required>
   </div>
 
   <div>
@@ -24,4 +31,5 @@
     <input type="submit" value="Register">
   </div>
 </form>
+
 <a href="<%= routes['website_login'] %>">Login</a>

@@ -1,8 +1,10 @@
 <h1>LOGIN</h1>
 
-<% errors.forEach((error, i) => { %>
-  <li><%= error %></li>
-<% }) %>
+<% if (!user.valid) { %>
+  <% for (let id of Object.keys(user.errors)) { %>
+    <li><%= user.errors[id] %></li>
+  <% } %>
+<% } %>
 
 <form action="<%= routes['website_login'] %>" method="POST">
   <div>

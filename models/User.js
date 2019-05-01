@@ -12,11 +12,12 @@ export default class User {
   password = null
   permissions = null
   errors = {}
+  valid = true
 
   constructor(params) {
     this.name = params.name
     this.username = params.username
-    this.email = params.email.toLowerCase()
+    if (params.email) this.email = params.email.toLowerCase()
     this.password = params.password
     this.permissions = params.permissions || User.REGULAR
   }
@@ -24,10 +25,20 @@ export default class User {
   validate() {
     let valid = true
 
+    valid = this.present(["name", "username", "email", "password", "permissions"])
     valid = this.unique(["email", "username"]) && valid
-    valid = this.minLength(["password"], 2) && valid
+    valid = this.minLength(["password"], 8) && valid
+
+    this.valid = valid
 
     return valid
+  }
+
+  present(props) {
+    return props.reduce((is_present, prop) =>{
+      if (this[prop] == undefined) this.add_error(prop, "must be present")
+      return is_present && this[prop] != undefined
+    }, true)
   }
 
   unique(props) {
@@ -38,7 +49,7 @@ export default class User {
         return is_unique && !props.reduce((matches, prop) => {
           let res = user[prop] == this[prop]
 
-          if (user[prop] == this[prop]) this.errors[prop] = `${prop} has to be unique`
+          if (user[prop] == this[prop]) this.add_error(prop, "already exists")
 
           return matches || res
         }, false)
@@ -51,10 +62,19 @@ export default class User {
   minLength(props, value) {
     return props.reduce((is_valid, prop) => {
       let res = this[prop].length >= value
-      if (!res) this.errors[prop] = `${prop} has to be at least ${value} long`
+      if (!res) this.add_error(prop, `has to be at least ${value} characters long`)
 
       return is_valid && res
     }, true)
+  }
+
+  add_error(prop, msg) {
+    this.valid = false
+    if (!this.errors[prop]) {
+      this.errors[prop] = [msg]
+    } else {
+      this.errors[prop].push(msg)
+    }
   }
 
   static all() {
@@ -65,12 +85,25 @@ export default class User {
     }
   }
 
+  static where(params) {
+    let users = User.all()
+
+    return users.filter(user => {
+      for (let k of Object.keys(params)) {
+        let v = params[k]
+        if (user[k] != v) return false
+      }
+      return true
+    })
+  }
+
   static create(params) {
     let users = User.all()
     let user = new User(params)
     if (user.validate()) {
       user.password = hash(user.password)
       user.id = users.length ? users[users.length-1].id + 1 : 0
+      delete user.valid
       User.bulk([ ...users, user ])
     }
 
@@ -91,18 +124,11 @@ export default class User {
         return (user.id == id) ? _user : user
       })
 
+      delete user.valid
       User.bulk(updated_users)
     }
 
     return _user
-  }
-
-  static getUsername(username){
-    for (let user of User.all()){
-      if (user.username == username){
-        return user
-      }
-    }
   }
 
   static get(id) {
