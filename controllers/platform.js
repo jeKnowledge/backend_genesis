@@ -20,18 +20,21 @@ router.get('/show_profile',redirectLogin, (req, res)=>{
 })
 
 router.get('/delete_profile', redirectLogin, (req, res)=>{
-  console.log("id in delete",req.session.id)
   User.destroy(req.session.id)
   return res.redirect('/logout')
 })
 
 router.get('/edit_profile', redirectLogin, (req, res)=>{
-  let user = User.update({
+  let user = User.get(req.session.id)
+  render_view(res, 'platform/edit_profile', {user})
+})
+
+router.post('/edit_profile', (req, res)=>{
+  let user = User.update(req.session.id, {
     username: req.body.username,
-    email: req.body.email,
-    password: req.body.password
+    email: req.body.email  
   })
-  res.redirect(res, 'platform/show_profile')
+  render_view(res, 'platform/show_profile', {user})
 })
 
 export default router

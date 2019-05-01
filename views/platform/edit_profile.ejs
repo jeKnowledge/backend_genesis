@@ -1,5 +1,17 @@
-<h1><%= user.username %></h1>
-<ul>
-  <li>Email: <%= user.email %></li>
-  <li>Username: <%= user.username %></li>
-</ul>
+<h1>Edit <%= user.username %>:</h1>
+
+<form action="/platform/edit_profile" method="POST">
+  <div>
+    <label>Username</label>
+    <input type="text" name="username" value='<%= user.username %>'>
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input type="email" name="email" value='<%= user.email %>' >
+  </div>
+
+  <div>
+    <input type="submit" value="Update Profile">
+  </div>
+</form>

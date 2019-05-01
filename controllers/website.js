@@ -36,7 +36,6 @@ router.get('/login', (_, res) => {
 
 router.post('/login', (req, res) => {
   let user = User.getUsername(req.body.username)
-  console.log(user);
   if (user && compare_with_hash(req.body.password, user.password)) {
     req.session.id = user.id
     res.redirect(routes['platform_index'])
