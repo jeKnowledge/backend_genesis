@@ -2,6 +2,7 @@ import ejs from 'ejs'
 import path from 'path'
 import fs from 'fs'
 import routes from './routes.json'
+import bcrypt from 'bcrypt'
 
 const SALT_ROUNDS = 10
 
@@ -17,4 +18,8 @@ const render_view = (res, slug, view_props={}) => {
   })
 }
 
-export { render_view }
+const hash = password => {
+  return bcrypt.hashSync(password, SALT_ROUNDS)
+}
+
+export { render_view, hash }
