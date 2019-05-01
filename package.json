@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js --ignore /data/*"
+    "start": "nodemon --exec babel-node server.js --ignore /data/*",
+    "seed": "npx babel-node data/generator.js"
   },
   "author": "",
   "license": "",
@@ -19,6 +20,7 @@
     "dotenv": "^7.0.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "generate-password": "^1.4.1",
     "nodemon": "^1.18.9"
   }
