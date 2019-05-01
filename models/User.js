@@ -24,7 +24,7 @@ export default class User {
     let valid = true
 
     valid = this.unique(["email", "username"]) && valid
-    valid = this.minLength(["password"], 8) && valid
+    valid = this.minLength(["password"], 2) && valid
 
     return valid
   }
@@ -60,7 +60,6 @@ export default class User {
   static create(params) {
     let users = User.all()
     let user = new User(params)
-
     if (user.validate()) {
       user.password = hash(user.password)
       user.id = users.length ? users[users.length-1].id + 1 : 0
@@ -88,6 +87,14 @@ export default class User {
     }
 
     return _user
+  }
+
+  static getUsername(username){
+    for (let user of User.all()){
+      if (user.username == username){
+        return user
+      }
+    }
   }
 
   static get(id) {
