@@ -27,7 +27,7 @@ export default class User {
 
     valid = this.present(["name", "username", "email", "password", "permissions"])
     valid = this.unique(["email", "username"]) && valid
-    valid = this.minLength(["password"], 8) && valid
+    valid = this.minLength(["password"], 8) && valid // 8 characters password
 
     this.valid = valid
 
@@ -103,8 +103,9 @@ export default class User {
     if (user.validate()) {
       user.password = hash(user.password)
       user.id = users.length ? users[users.length-1].id + 1 : 0
-      delete user.valid
-      User.bulk([ ...users, user ])
+      let to_save = { ...user }
+      delete to_save.valid
+      User.bulk([ ...users, to_save ])
     }
 
     return user
@@ -119,12 +120,13 @@ export default class User {
 
     if (_user.validate()) {
       _user.password = hash(_user.password)
-
+      let to_save = { ..._user }
+      delete to_save.valid
+            
       let updated_users = User.all().map(user => {
-        return (user.id == id) ? _user : user
+        return (user.id == id) ? to_save : user
       })
 
-      delete user.valid
       User.bulk(updated_users)
     }
 

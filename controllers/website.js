@@ -16,7 +16,6 @@ router.get('/register', (_, res) => {
 
 router.post('/register', (req, res) => {
   let user = User.create(req.body)
-
   if (user.valid) {
     req.session.id = user.id
     res.redirect(routes['platform_index'])
