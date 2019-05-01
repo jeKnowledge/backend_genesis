@@ -11,6 +11,7 @@ export default class User {
   email = null
   password = null
   permissions = null
+  errors = {}
 
   constructor(params) {
     this.name = params.name
@@ -35,7 +36,11 @@ export default class User {
     return users.reduce((is_unique, user) => {
       if (user.id != this.id) {
         return is_unique && !props.reduce((matches, prop) => {
-          return matches || user[prop] == this[prop]
+          let res = user[prop] == this[prop]
+
+          if (user[prop] == this[prop]) this.errors[prop] = `${prop} has to be unique`
+
+          return matches || res
         }, false)
       } else {
         return is_unique
@@ -45,7 +50,10 @@ export default class User {
 
   minLength(props, value) {
     return props.reduce((is_valid, prop) => {
-      return is_valid && this[prop].length >= value
+      let res = this[prop].length >= value
+      if (!res) this.errors[prop] = `${prop} has to be at least ${value} long`
+
+      return is_valid && res
     }, true)
   }
 
