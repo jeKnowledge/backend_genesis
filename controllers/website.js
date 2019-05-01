@@ -1,5 +1,5 @@
 import express from 'express'
-import { render_view, hash, compare_with_hash } from '../utils'
+import { render_view, hash, compare_with_hash, redirectLogin } from '../utils'
 import { FakeUser } from '../models'
 import { send_new_password }  from '../mailer'
 import routes from '../routes.json'
@@ -11,10 +11,19 @@ router.get('/', (_, res) => {
 })
 
 router.get('/register', (_, res) => {
-  render_view(res, 'website/register', { user: { errors: [] } })
+  render_view(res, 'website/register', { errors: [] } )
 })
 
 router.post('/register', (req, res) => {
+  
+  if (FakeUser.findName(req.body.username)){
+    return render_view(res, 'website/register', { errors: [ "Username already in use" ] })
+  }
+
+  if (FakeUser.findEmail(req.body.email)){
+    return render_view(res, 'website/register', { errors: [ "Mail already in use" ] })
+  }
+
   let user = FakeUser.add({
     username: req.body.username,
     email: req.body.email,
@@ -33,17 +42,20 @@ router.get('/login', (_, res) => {
 })
 
 router.post('/login', (req, res) => {
-  let user = FakeUser.find(req.body.username)
-
+  let user = FakeUser.findName(req.body.username)
+  console.log("Inside login => ", user);
   if (user && compare_with_hash(req.body.password, user.password)) {
     // TODO: Save id in session
+    console.log("User checked as correct")
+    req.session.id = user.id
     res.redirect(routes['platform_index'])
+    
   } else {
-    render_view(res, 'website/login', { errors: [ "Invalid credentials" ] })
+    return render_view(res, 'website/login', { errors: [ "Invalid credentials" ] })
   }
 })
 
-router.get('/logout', (_, res) => {
+router.get('/logout', redirectLogin, (_, res) => {
   // TODO: Clear session
   res.redirect(routes['website_login'])
 })

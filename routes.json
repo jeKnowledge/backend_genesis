@@ -5,5 +5,8 @@
   "website_logout": "/logout",
   "website_forgot_password": "/forgot_password",
 
-  "platform_index": "/platform"
+  "platform_index": "/platform",
+  "platform_edit_profile": "/edit_profile",
+  "platform_show_profile": "/show_profile",
+  "platform_delete_profile": "/delete_profile"
 }

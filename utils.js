@@ -26,4 +26,13 @@ const compare_with_hash = (string, hash) => {
   return bcrypt.compareSync(string, hash)
 }
 
-export { render_view, hash, compare_with_hash }
+const redirectLogin = (req, res, next)=>{
+  console.log("inside redirect login");
+  if (!req.session.id) {
+    res.redirect(routes['website_login'])
+  }else{
+    next()
+  }
+}
+
+export { render_view, hash, compare_with_hash, redirectLogin }

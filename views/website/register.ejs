@@ -1,26 +1,27 @@
 <h1>REGISTER</h1>
 
-<% user.errors.forEach((error, i) => { %>
+<% errors.forEach((error, i) => { %>
   <li><%= error %></li>
 <% }) %>
 
 <form action="<%= routes['website_register'] %>" method="POST">
   <div>
     <label>Username</label>
-    <input type="text" name="username">
+    <input type="text" name="username" required
   </div>
 
   <div>
     <label>Email</label>
-    <input type="email" name="email">
+    <input type="email" name="email" required>
   </div>
 
   <div>
     <label>Password</label>
-    <input type="password" name="password">
+    <input type="password" name="password" required>
   </div>
 
   <div>
     <input type="submit" value="Register">
   </div>
 </form>
+<a href="<%= routes['website_login'] %>">Login</a>

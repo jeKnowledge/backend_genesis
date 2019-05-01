@@ -1,4 +1,5 @@
 import express from 'express'
+import cookieSession from 'cookie-session'
 import controllers from './controllers'
 import db from './models'
 
@@ -8,6 +9,17 @@ const port = process.env.PORT || 3000
 app.set('view engine', 'ejs')
 app.set('views', './views')
 app.set('trust proxy', 1)
+
+app.use(cookieSession({
+  maxAge: 1000*60*60*2,  // 2 hours
+  name: 'macaco',
+  keys: ['backend_genesis']
+}))
+
+app.use((req, _, next)=>{
+  req.sessionOptions.maxAge = req.session.maxAge || req.sessionOptions.maxAge
+  next()
+})
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
