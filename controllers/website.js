@@ -49,14 +49,13 @@ router.post('/login', (req, res) => {
     console.log("User checked as correct")
     req.session.id = user.id
     res.redirect(routes['platform_index'])
-    
+
   } else {
     return render_view(res, 'website/login', { errors: [ "Invalid credentials" ] })
   }
 })
 
 router.get('/logout', redirectLogin, (_, res) => {
-  // TODO: Clear session
   res.redirect(routes['website_login'])
 })
 

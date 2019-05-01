@@ -12,7 +12,7 @@ app.set('trust proxy', 1)
 
 app.use(cookieSession({
   maxAge: 1000*60*60*2,  // 2 hours
-  name: 'macaco',
+  name: 'BigCookie',
   keys: ['backend_genesis']
 }))
 

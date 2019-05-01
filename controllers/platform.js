@@ -24,6 +24,13 @@ router.post('/logout', (req, res)=>{
 })
 
 router.get('/show_profile', (req, res)=>{
-  render_view(res, 'website/profilePage')
+  let user = FakeUser.findId(req.session.id)
+  render_view(res, 'platform/show_profile', { user })
+})
+
+router.get('/delete_profile', (req, res)=>{
+  console.log("id in delete",req.session.id)
+  FakeUser.delete(req.session.id)
+  return res.redirect('/logout')
 })
 export default router

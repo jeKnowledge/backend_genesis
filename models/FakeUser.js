@@ -52,6 +52,17 @@ class FakeUser {
     }
     return null
   }
+
+  static delete(id){
+    for (let i in users){
+      if (users[i].id === id){
+        users.splice(i,1)
+        fs.writeFileSync("data/users.json", JSON.stringify(users))
+        return true
+      }
+    }
+    return false
+  }
 }
 
 export default FakeUser
