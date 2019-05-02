@@ -4,6 +4,7 @@
   "website_register": "/register",
   "website_logout": "/logout",
   "website_forgot_password": "/forgot_password",
+  "website_admin": "/admin",
 
   "platform_index": "/platform",
   "platform_edit_profile": "/edit_profile",

@@ -1,0 +1,19 @@
+<p>Admin page</p>
+<% if (response.message) { %>
+  <p><%= response.message %></p>
+<% } %>
+
+<% if (response.locked) { %>
+  <a href="<%= routes['website_admin'] %>/lock-unlock">Unlock email tier limit</a><br>
+<% } else {%>
+<a href="<%= routes['website_admin'] %>/lock-unlock">Lock email tier limit</a><br>
+<% } %>
+
+
+<a href="<%= routes['website_admin']%>/mail_usage">See current mail usage</a><br>
+
+<a href="<%= routes['website_admin']%>/statistics">See statistics</a><br>
+
+<a href="<%= routes['website_admin']%>/reset">Reset usage</a><br><br>
+
+<a href="<%= routes['website_index'] %>">home</a>

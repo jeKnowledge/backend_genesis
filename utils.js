@@ -5,6 +5,7 @@ import routes from './routes.json'
 import bcrypt from 'bcrypt'
 
 const SALT_ROUNDS = 10
+const MAILER_STATS_FILE = "data/mailer_stats.json"
 
 const render_view = (res, slug, view_props = {}) => {
   const view_file_path = path.join(__dirname, 'views', slug + '.ejs')
@@ -34,4 +35,18 @@ const redirectLogin = (req, res, next)=>{
   }
 }
 
-export { render_view, hash, compare_with_hash, redirectLogin }
+const get_mail_stats = (req, res, next)=>{
+  let mailer_stats = { sent: 0, locked: false }
+  try {
+  let data = fs.readFileSync(MAILER_STATS_FILE, 'utf-8')
+  mailer_stats = JSON.parse(data)
+  } catch { }
+  req.mailer_stats = mailer_stats
+  next()
+}
+
+const send_mail_stats = (mailer_stats)=>{
+  fs.writeFileSync(MAILER_STATS_FILE, JSON.stringify(mailer_stats))
+}
+
+export { render_view, hash, compare_with_hash, redirectLogin, send_mail_stats, get_mail_stats }

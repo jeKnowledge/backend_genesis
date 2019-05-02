@@ -26,6 +26,7 @@ app.use(express.static('public'))
 
 app.use("/", controllers.website)
 app.use("/platform", controllers.platform)
+app.use("/admin", controllers.admin)
 
 app.on('close', () => { })
 
