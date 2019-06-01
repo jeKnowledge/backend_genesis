@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "setup": "yarn firebase use --add",
-    "build": "babel 'firebase_functions' --out-dir 'functions' --source-maps --copy-files --presets=@babel/preset-env && cd functions && yarn",
+    "build": "babel 'functions' --out-dir 'babeled_functions' --source-maps --copy-files --presets=@babel/preset-env && cd babeled_functions && yarn",
     "watch": "yarn build --watch",
     "serve": "yarn watch && yarn firebase serve --only functions",
     "predeploy": "yarn build",
