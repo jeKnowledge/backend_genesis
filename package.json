@@ -6,9 +6,9 @@
     "setup": "yarn firebase use --add",
     "build": "babel 'functions' --out-dir 'babeled_functions' --source-maps --copy-files --presets=@babel/preset-env && cd babeled_functions && yarn",
     "watch": "yarn build --watch",
-    "serve": "yarn watch && yarn firebase serve --only functions",
+    "serve": "yarn watch && yarn firebase serve",
     "predeploy": "yarn build",
-    "deploy": "yarn firebase deploy --only functions"
+    "deploy": "yarn firebase deploy"
   },
   "engines": { "node": "8" },
   "babel": {
