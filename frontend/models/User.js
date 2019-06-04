@@ -122,7 +122,7 @@ export default class User {
       _user.password = hash(_user.password)
       let to_save = { ..._user }
       delete to_save.valid
-            
+
       let updated_users = User.all().map(user => {
         return (user.id == id) ? to_save : user
       })

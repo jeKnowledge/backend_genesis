@@ -1,0 +1,5 @@
+babeled_functions/
+node_modules/
+
+firebase-debug.log
+yarn-error.log

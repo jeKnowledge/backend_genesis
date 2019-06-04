@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "setup": "yarn firebase use --add",
-    "build": "babel 'functions' --out-dir 'babeled_functions' --source-maps --copy-files --presets=@babel/preset-env && cd babeled_functions && yarn",
-    "watch": "yarn build --watch",
-    "serve": "yarn watch && yarn firebase serve",
-    "predeploy": "yarn build",
-    "deploy": "yarn firebase deploy"
+    "serve": "nodemon --exec babel-node server.js --ignore /data/*",
+    "seed": "npx babel-node data/generator.js"
   },
-  "engines": { "node": "8" },
+  "engines": {
+    "node": "8"
+  },
   "babel": {
     "presets": [
       "@babel/preset-env"
@@ -23,7 +21,6 @@
   "author": "Gonçalo Pereira <46056672+goncalomp@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.4.4",

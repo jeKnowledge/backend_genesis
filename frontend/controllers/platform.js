@@ -32,7 +32,7 @@ router.get('/edit_profile', redirectLogin, (req, res)=>{
 router.post('/edit_profile', (req, res)=>{
   let user = User.update(req.session.id, {
     username: req.body.username,
-    email: req.body.email  
+    email: req.body.email
   })
   render_view(res, 'platform/show_profile', {user})
 })

@@ -7,6 +7,7 @@ import routes from '../routes.json'
 let router = express.Router()
 
 router.get('/', (_, res) => {
+  console.log("INDEX")
   render_view(res, 'website/index',)
 })
 
