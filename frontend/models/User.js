@@ -1,11 +1,11 @@
-import { hash } from '../utils'
+import { hash, firebase } from '../utils'
 import fs from 'fs'
 
 export default class User {
   static ADMIN = 1
   static REGULAR = 0
 
-  id = null
+  uid = null
   name = null
   username = null
   email = null
@@ -77,6 +77,10 @@ export default class User {
     }
   }
 
+  save_data() {
+
+  }
+
   static all() {
     try {
       return JSON.parse(fs.readFileSync('data/users.json', 'utf-8'))
@@ -98,14 +102,13 @@ export default class User {
   }
 
   static create(params) {
-    let users = User.all()
     let user = new User(params)
+
     if (user.validate()) {
-      user.password = hash(user.password)
-      user.id = users.length ? users[users.length-1].id + 1 : 0
-      let to_save = { ...user }
-      delete to_save.valid
-      User.bulk([ ...users, to_save ])
+      try {
+        user.uid = await firebase.auth().createUserWithEmailAndPassword(user.email, password).user.uid
+        user.save_data()
+      } catch {}
     }
 
     return user

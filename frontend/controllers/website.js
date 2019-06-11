@@ -1,5 +1,5 @@
 import express from 'express'
-import { render_view, compare_with_hash, redirectLogin } from '../utils'
+import { render_view, compare_with_hash, redirectLogin, firebase } from '../utils'
 import { User } from '../models'
 import { send_new_password }  from '../mailer'
 import routes from '../routes.json'
@@ -7,7 +7,6 @@ import routes from '../routes.json'
 let router = express.Router()
 
 router.get('/', (_, res) => {
-  console.log("INDEX")
   render_view(res, 'website/index',)
 })
 
@@ -15,8 +14,9 @@ router.get('/register', (_, res) => {
   render_view(res, 'website/register', { user: new User({}) } )
 })
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   let user = User.create(req.body)
+
   if (user.valid) {
     req.session.id = user.id
     res.redirect(routes['platform_index'])
