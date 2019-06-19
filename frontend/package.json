@@ -34,6 +34,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "faker": "^4.1.0",
+    "firebase": "^6.1.1",
     "firebase-tools": "^6.10.0",
     "generate-password": "^1.4.1",
     "nodemon": "^1.18.9"

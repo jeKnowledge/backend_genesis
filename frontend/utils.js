@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import routes from './routes.json'
 import bcrypt from 'bcrypt'
+import firebase from 'firebase'
 
 const SALT_ROUNDS = 10
 
@@ -26,12 +27,16 @@ const compare_with_hash = (string, hash) => {
   return bcrypt.compareSync(string, hash)
 }
 
-const redirectLogin = (req, res, next)=>{
-  if (!req.session.id) {
-    res.redirect(routes['website_login'])
-  }else{
-    next()
-  }
+const redirectLogin = (_, res, next)=>{
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      next()
+    }
+    else{
+      res.redirect(routes['website_login'])
+    }
+  })
 }
 
 export { render_view, hash, compare_with_hash, redirectLogin }

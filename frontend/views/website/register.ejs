@@ -1,30 +1,38 @@
 <h1>REGISTER</h1>
-
-<% if (!user.valid) { %>
-  <% for (let id of Object.keys(user.errors)) { %>
-    <li><%= `${id} ${user.errors[id]}` %></li>
-  <% } %>
-<% } %>
-
 <form action="<%= routes['website_register'] %>" method="POST">
   <div>
-    <label>Name</label>
-    <input type="text" name="name" required>
+    <label>Username: </label>
+    <%if ( user.displayName ) { %>
+      <input type="text" name="displayName" value='<%= user.phoneNumber %>' required >
+    <% }else{ %>
+      <input type="text" name="displayName">
+    <% } %>
   </div>
 
   <div>
-    <label>Username</label>
-    <input type="text" name="username" required>
+    <label>Phone Number (Opcional): </label>
+    <%if ( user.phoneNumber ) { %>
+      <input type="text" name="phoneNumber" value='<%= user.phoneNumber %>' >
+    <% }else{ %>
+      <input type="text" name="phoneNumber">
+    <% } %>
   </div>
 
   <div>
-    <label>Email</label>
-    <input type="email" name="email" required>
+    <label>Email: </label>
+    <%if ( user.displayName ) { %>
+      <input type="email" name="email" value='<%= user.email %>' required >
+    <% }else{ %>
+      <input type="email" name="email">
+    <% } %>
   </div>
 
   <div>
-    <label>Password</label>
-    <input type="password" name="password" required>
+    <label>Password: </label>
+    <input type="password" name="password">
+    <%if ( user.password ) { %>
+      <text><%= user.password %><br></text>
+    <% } %>      
   </div>
 
   <div>

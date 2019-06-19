@@ -1,5 +1,10 @@
-<h1 style="margin-left: 6%"><%= user.username %></h1>
+<h1 style="margin-left: 6%"><%= user.displayName %></h1>
 <ul>
   <li>Email: <%= user.email %></li>
-  <li>Username: <%= user.username %></li>
+  <li>Username: <%= user.displayName %></li>
+  <%if ( user.phoneNumber ) { %>
+    <li>Phone Number: <%= user.phoneNumber %> </li>
+  <% }else{ %>
+  <li>Phone Number: Not defined </li>
+<% } %>
 </ul>
