@@ -22,4 +22,13 @@ app.post('/login', request_wrapper(async req => {
   }
 }))
 
+app.post('/register', request_wrapper(async req => {
+  // With email and password
+  if (required_params(req.body, ['email', 'password'])) {
+    return await firebase.auth().createUserWithEmailAndPassword(req.body['email'], req.body['password'])
+  } else {
+    return 'Invalid params expected { email, password }'
+  }
+}))
+
 exports.app = functions.https.onRequest(app)
