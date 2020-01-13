@@ -18,16 +18,25 @@ function required_params(params, required_keys) {
   }, true)
 }
 
+function send_failure(res) {
+  res.status(400)
+  res.send("Unhandled request")
+}
+
 function request_wrapper(request_handler) {
-  return (req, res) => {
-    response_payload = request_handler(req, res)
-    if (response_payload == undefined) {
-      res.status(400)
-      res.send("Unhandled request")
-    }
-    else {
+  return async (req, res) => {
+    try {
+      response_payload = await request_handler(req, res)
+      if (response_payload == undefined) {
+        send_failure(res)
+      }
+      else {
+        res.status(200)
+        res.send(response_payload)
+      }
+    } catch (e) {
       res.status(200)
-      res.send(response_payload)
+      res.send(e.message)
     }
   }
 }

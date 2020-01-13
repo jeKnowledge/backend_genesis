@@ -1,5 +1,9 @@
 const glob = require('glob')
 const camelcase = require('camelcase')
+const firebase = require("firebase/app")
+const firebase_config = require("./config.json")
+
+firebase.initializeApp(firebase_config)
 
 glob.sync('./**/package.js', { cwd: __dirname, ignore: './node_modules/**' }).forEach(file => {
   const package_namespaces = file.split("/").slice(1, -1)
